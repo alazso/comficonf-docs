@@ -1,0 +1,57 @@
+---
+title: Finding settings
+description: Search, the Modified, Problems and Restart required filters, the outline, and Jump to section on phones.
+---
+
+The editor shows every setting a plugin shares with ComfiConf, grouped into sections. Each row shows the
+setting's label, its key path in mono (for example `settings.prefix`), the plugin's description, and its value.
+Four tools help you find a setting quickly.
+
+## Search
+
+Type into **Search settings by name, description or key**. The editor keeps only the settings whose label,
+description or key matches. Clear the search with **Clear search** or <Kbd>Esc</Kbd>.
+
+If nothing matches, the editor says **No settings match** followed by your search, and suggests searching by the
+setting's key instead. The key is the name you would see in the plugin's YAML file.
+
+## Filters
+
+Next to the search field, three filter buttons show only some settings. Each one shows how many settings it
+matches.
+
+| Filter | Shows |
+| --- | --- |
+| **Modified** | Settings you changed, new list entries, and reordered lists |
+| **Problems** | Settings with an error to fix before you can apply |
+| **Restart required** | Settings that take effect only after a server restart |
+
+Filters combine: with **Modified** and **Problems** both on, you see settings that are modified or have a
+problem. The search then narrows that list further. **Restart required** appears only when the plugin has such
+settings, and on narrow screens it reads **Restart**.
+
+When no setting matches, choose **Clear filters** or **Clear search**.
+
+## The outline
+
+On wider screens, the **Outline** beside the editor lists the sections and, under each list, its entries. Each
+item shows how many changes and problems it holds. Choose an item to jump to it. Long lists show their first
+12 entries in the outline, then a count of the rest.
+
+Use **Expand all** and **Collapse all** above the editor to open or close every section at once.
+
+## Jump to section on phones
+
+On narrow screens the outline is hidden. Use the **Jump to section** menu above the editor instead.
+
+## Settings that are hidden on purpose
+
+Some settings appear only while another setting has a certain value, for example announcement channels that
+matter only while announcements are on. Such a row says why it is shown, for example **Shown because Announce
+redemptions is on.** If a problem sits in a hidden setting, the editor tells you which setting to change to show
+it.
+
+## Tabs for plugins with several settings pages
+
+A plugin can share more than one settings page, for example one per configuration file. The editor then shows a
+tab for each page. Every page is reviewed and applied on its own.

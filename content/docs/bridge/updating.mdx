@@ -1,0 +1,37 @@
+---
+title: Updating the bridge
+description: Replace the bridge JAR with a newer version without pairing again.
+---
+
+New versions of the bridge are published on <ReleaseLink to="modrinth">Modrinth</ReleaseLink> and
+<ReleaseLink to="hangar">Hangar</ReleaseLink>. The current version is `COMFICONF_BRIDGE_VERSION`.
+
+<Steps>
+  <Step title="Download the new JAR">
+    Download the new `ComfiConf-Bridge-<version>.jar` from Modrinth or Hangar.
+  </Step>
+  <Step title="Replace the old JAR">
+    Stop the server, delete the old `ComfiConf-Bridge-…jar` from the `plugins` folder, and put the new one in.
+    Keep the `plugins/ComfiConf` folder: it holds your settings and the server's identity.
+  </Step>
+  <Step title="Start the server">
+    Start the server and run <CommandChip>/comficonf status</CommandChip>. The first line shows the new version,
+    and the connection returns to **Connected and paired** without pairing again.
+  </Step>
+</Steps>
+
+The **Bridge** column on **Your servers** and the **Bridge** fact on the server page show the new version once
+the server reconnects.
+
+## When a plugin needs a newer bridge
+
+Plugins with ComfiConf support are built against a version of the ComfiConf developer API, which the bridge
+provides on your server. If a plugin was built for a newer version than your bridge, it cannot register its
+settings. It may say so in the server log; the ComfiConfDemo plugin, for example, asks you to update ComfiConf.
+Update the bridge to its newest version. Until then the plugin keeps working with its own configuration files,
+without ComfiConf.
+
+## Versions
+
+The bridge, the developer API and the ComfiConfDemo plugin share one version number, and versions follow
+Semantic Versioning. Read the release notes on the store page before you update.

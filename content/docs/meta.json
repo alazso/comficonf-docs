@@ -1,0 +1,14 @@
+{
+  "title": "ComfiConf docs",
+  "pages": [
+    "index",
+    "getting-started",
+    "editor",
+    "servers",
+    "bridge",
+    "settings",
+    "troubleshooting",
+    "faq",
+    "supported-plugins"
+  ]
+}

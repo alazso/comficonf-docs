@@ -1,0 +1,59 @@
+---
+title: Rename and remove a server
+description: Change a server's name on ComfiConf, and remove a server from your account.
+---
+
+## Rename a server
+
+The name you see on ComfiConf is the one suggested by the bridge when you paired, or the **Display name
+(optional)** you entered then. To change it:
+
+<Steps>
+  <Step title="Open the server page">Choose the server on **Your servers**.</Step>
+  <Step title="Choose Rename">
+    **Rename** sits at the top right, next to the status.
+  </Step>
+  <Step title="Enter the new name">
+    Type it into **Server name** (1 to 64 characters) and choose **Save name**. **Cancel renaming** or
+    <Kbd>Esc</Kbd> keeps the old name.
+  </Step>
+</Steps>
+
+The rename appears under **Recent activity**. It changes the name on ComfiConf only; the `server-name` in the
+bridge's `config.yml` is just the suggestion used when pairing.
+
+## Remove a server
+
+Removing a server disconnects it from your account. Do it when you retire a server, or to pair it with another
+account.
+
+<Steps>
+  <Step title="Open the server page">
+    Scroll to **Remove this server** at the bottom. You can also start from **Server access** on the
+    [Settings](/settings) page.
+  </Step>
+  <Step title="Choose Remove server">
+    A dialog asks **Remove** followed by the server's name, such as **Remove Survival?**
+  </Step>
+  <Step title="Confirm">
+    Choose **Remove server** in the dialog, or **Cancel**. ComfiConf confirms the removal and returns you to
+    **Your servers**.
+  </Step>
+</Steps>
+
+## What removal revokes
+
+<Callout tone="warning" title="Removal is immediate">
+  ComfiConf revokes this server's bridge and disconnects it. Plugin settings on the server stay as they are. To
+  manage it again, pair it with a new code.
+</Callout>
+
+- **Revoked:** the bridge's access to your account. The server disappears from **Your servers** and from the
+  navigation.
+- **Not touched:** everything on the server itself. Plugin files and their settings stay as they are, and the
+  bridge plugin stays installed.
+- **On the server**, the bridge logs that the account removed the server, creates a new identity, and is ready
+  to pair again: <CommandChip>/comficonf status</CommandChip> shows **Connected, not paired**.
+
+To manage the server again, from this account or another one, run <CommandChip>/comficonf pair</CommandChip>
+and [pair it](/getting-started/pair-your-server) with the new code.

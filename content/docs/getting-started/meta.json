@@ -1,0 +1,11 @@
+{
+  "title": "Getting started",
+  "pages": [
+    "what-is-comficonf",
+    "requirements",
+    "install-the-bridge",
+    "create-an-account",
+    "pair-your-server",
+    "first-edit"
+  ]
+}

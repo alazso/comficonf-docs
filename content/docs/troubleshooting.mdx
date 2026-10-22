@@ -1,0 +1,90 @@
+---
+title: Troubleshooting
+description: Status messages, pairing problems, offline servers, and plugins that do not appear.
+---
+
+Start with <CommandChip>/comficonf status</CommandChip> in the server console. Its **Connection** line tells you
+which section below applies.
+
+| Connection | Meaning | See |
+| --- | --- | --- |
+| **Connected and paired** | Everything is set up. | [A plugin does not appear](#a-plugin-does-not-appear) |
+| **Connected, not paired** | The bridge reaches ComfiConf but belongs to no account yet. | [Pair your server](/getting-started/pair-your-server) |
+| **Connecting** | A connection attempt is running. | Wait a few seconds and run the command again. |
+| **Disconnected** | The bridge cannot reach ComfiConf. **Last error** says why. | [The bridge does not connect](#the-bridge-does-not-connect) |
+
+## The bridge does not connect
+
+The bridge keeps retrying on its own, waiting a little longer after each failed attempt, up to a minute. The
+**Last error** line shows the reason and when the next attempt starts.
+
+- **Check the network.** The server needs an outbound connection to `app.comficonf.com` over HTTPS (port 443).
+  Some hosts block outgoing connections; ask yours to allow this one.
+- **Reconnect now.** After fixing the cause, run <CommandChip>/comficonf reconnect</CommandChip> instead of waiting
+  for the next attempt.
+- **Look at the log.** The bridge logs a warning when the error changes, and at most every ten minutes while it
+  stays the same. Set `debug: true` in `plugins/ComfiConf/config.yml` and run
+  <CommandChip>/comficonf reconnect</CommandChip> for a line per message. Debug lines never contain values,
+  keys or pairing codes.
+
+If the log says **another connection with the same identity was opened**, two servers use a copy of the same
+`plugins/ComfiConf/identity.json`, for example after you copied a server folder. Stop the copy, delete its
+`plugins/ComfiConf/identity.json`, start it again and [pair it](/getting-started/pair-your-server) as a server of
+its own.
+
+## Pairing problems
+
+| Message | Where | What to do |
+| --- | --- | --- |
+| **That code is not valid or has expired. Run /comficonf pair again for a new one.** | Pairing page | Codes expire after 10 minutes and work once. Get a new one. |
+| **Codes never contain 0, 1, I, L or O.** | Pairing page | No code contains these characters, so one was misread. Check what you typed, or copy the code instead. |
+| **Enter all 8 characters of the code.** | Pairing page | The code has 8 characters, such as `K7QX-M2PD`. |
+| **Too many attempts. Wait a minute, then try again.** | Pairing page | Wait, then enter the code again. |
+| **Too many pairing codes were requested. Wait a few minutes and try again.** | Console | Wait, then run <CommandChip>/comficonf pair</CommandChip> again. |
+| **This server is already paired** | Console | The server belongs to an account. Remove it on the website to pair it with another one. |
+| **The bridge is not connected to the ComfiConf backend** | Console | The bridge must be connected before it can show a code. See [above](#the-bridge-does-not-connect). |
+
+The code is shown only to the person who ran the command. If someone else ran it, ask them for the code, or run
+it yourself.
+
+## The server is offline
+
+**Offline** on **Your servers** means the bridge is not connected right now. Plugin settings cannot be opened
+until it reconnects.
+
+1. Check that the Minecraft server is running.
+2. Run <CommandChip>/comficonf status</CommandChip> in its console. If it shows **Disconnected**, follow
+   [The bridge does not connect](#the-bridge-does-not-connect).
+3. If the console says **Connected, not paired**, the server was removed from your account, or its identity file
+   was replaced. Pair it again.
+
+The bridge reconnects on its own after a restart or an outage, and the website updates as soon as it does. An
+editor that is already open keeps your edits; reviewing and applying resume when the server reconnects.
+
+## A plugin does not appear
+
+The server page lists only plugins that support ComfiConf and registered their settings with the bridge.
+
+1. Run <CommandChip>/comficonf plugins</CommandChip>. If it says **No plugin has registered a configuration
+   resource.**, no plugin on the server has registered settings.
+2. Check that the plugin supports ComfiConf. Its store page or documentation says so; see
+   [Supported plugins](/supported-plugins).
+3. Check the server log for a warning from the plugin about ComfiConf. A plugin built for a newer ComfiConf than
+   your bridge cannot register; [update the bridge](/bridge/updating).
+4. If the plugin was installed while the server ran, restart the server, then choose **Refresh** under
+   **Plugins** on the server page.
+
+## Messages in the editor
+
+| Message | Meaning |
+| --- | --- |
+| **The server is offline** | Settings can be loaded once the bridge reconnects. |
+| **The server did not answer in time** | It may be busy or restarting. Try again in a moment. |
+| **These settings are not available** | The plugin no longer registers them, or it was disabled. |
+| **Changed elsewhere** | The settings changed on the server while you edited. See [Reviewing and applying](/editor/reviewing-and-applying#when-the-settings-changed-on-the-server). |
+| **Outcome unknown** | The server did not confirm an apply. See [Apply outcomes](/editor/apply-outcomes#outcome-unknown). |
+
+## Still stuck
+
+Note the **Server ID** from the server page and the output of <CommandChip>/comficonf status</CommandChip>, then
+ask for help where you downloaded the bridge.

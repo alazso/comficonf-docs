@@ -1,0 +1,886 @@
+@import 'tailwindcss';
+@import 'fumadocs-ui/css/preset.css';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Fumadocs utilities that Ledger does not allow are not generated: pill radii, ring focus indicators (box-shadow),
+ * the transition utility that lists backdrop-filter, and the step circles.
+ */
+@source not inline("*:rounded-full fd-step fd-steps transition backdrop-filter focus-visible:ring-2 text-6xl");
+
+/*
+ * Ledger design tokens, with the names and values of the ComfiConf web app (apps/web/src/styles/index.css). Light
+ * values live in the theme block, dark values in the dark class block of the base layer. Every --color-* value is a
+ * lowercase 6-digit hex. The code-* tokens and the --font-size-body, --line-height-body and --content-max-width
+ * variables are additions of the documentation sites.
+ */
+@theme {
+  --font-sans:
+    var(--font-plex-sans), 'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+    sans-serif;
+  --font-mono:
+    var(--font-plex-mono), 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --font-mono--font-feature-settings: 'tnum';
+
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.8125rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 0.875rem;
+  --text-base--line-height: 1.375rem;
+  --text-lg: 1rem;
+  --text-lg--line-height: 1.5rem;
+  --text-xl: 1.125rem;
+  --text-xl--line-height: 1.625rem;
+  --text-2xl: 1.375rem;
+  --text-2xl--line-height: 1.75rem;
+
+  /* Surfaces */
+  --color-background: #f3f2ee;
+  --color-surface: #ffffff;
+  --color-elevated: #ffffff;
+  --color-sunken: #f7f6f2;
+  --color-hover: #f0efea;
+  --color-field: #ffffff;
+  --color-selected: #eef5f2;
+  --color-scrim: #1d2321;
+
+  /* Rules and control boundaries */
+  --color-border: #dedbd3;
+  --color-border-soft: #eceae4;
+  --color-border-strong: #c9c5bb;
+  --color-control-border: #8c8980;
+
+  /* Text */
+  --color-text: #1c2120;
+  --color-muted: #444c49;
+  --color-subtle: #5d6561;
+
+  /* Accent: primary actions, links, selection, focus */
+  --color-accent: #2f6b5e;
+  --color-accent-hover: #255a4e;
+  --color-accent-fg: #ffffff;
+  --color-accent-soft: #e3eeea;
+  --color-accent-soft-fg: #275c50;
+  --color-ring: #2f6b5e;
+
+  /* Modified: what changed, and the brand mark */
+  --color-modified: #b07a35;
+  --color-modified-fg: #835619;
+  --color-modified-soft: #f6edde;
+  --color-on-modified: #121615;
+
+  /* Status */
+  --color-success: #2e7d4f;
+  --color-success-soft: #e4f1e8;
+  --color-success-soft-fg: #25683f;
+  --color-warning: #ac7d1a;
+  --color-warning-soft: #faf0d6;
+  --color-warning-soft-fg: #7a5605;
+  --color-danger: #b42318;
+  --color-danger-hover: #9b1d14;
+  --color-danger-fg: #ffffff;
+  --color-danger-soft: #fbeae7;
+  --color-danger-soft-fg: #a3201a;
+
+  /* Chrome: the graphite frame, in both themes */
+  --color-chrome: #1d2321;
+  --color-chrome-2: #272f2d;
+  --color-chrome-3: #313a38;
+  --color-chrome-border: #333c3a;
+  --color-chrome-border-strong: #4c5754;
+  --color-chrome-text: #eceae4;
+  --color-chrome-muted: #a7aeaa;
+  --color-chrome-accent: #8bcbba;
+  --color-chrome-modified: #ddaa62;
+  --color-chrome-danger: #f4a49a;
+  --color-chrome-warning: #e9c46b;
+  --color-chrome-success: #7bcf9c;
+
+  /* Code blocks: one step darker than the content surface */
+  --color-code-surface: #f7f6f2;
+  --color-code-text: #1c2120;
+  --color-code-border: #dedbd3;
+
+  /* Fumadocs colors, mapped to Ledger tokens. */
+  --color-fd-background: var(--color-background);
+  --color-fd-foreground: var(--color-text);
+  --color-fd-card: var(--color-surface);
+  --color-fd-card-foreground: var(--color-text);
+  --color-fd-popover: var(--color-elevated);
+  --color-fd-popover-foreground: var(--color-text);
+  --color-fd-muted: var(--color-sunken);
+  --color-fd-muted-foreground: var(--color-muted);
+  --color-fd-secondary: var(--color-sunken);
+  --color-fd-secondary-foreground: var(--color-text);
+  --color-fd-accent: var(--color-hover);
+  --color-fd-accent-foreground: var(--color-text);
+  --color-fd-primary: var(--color-accent);
+  --color-fd-primary-foreground: var(--color-accent-fg);
+  --color-fd-border: var(--color-border);
+  --color-fd-ring: var(--color-ring);
+  --color-fd-overlay: color-mix(in srgb, var(--color-scrim) 45%, transparent);
+  --color-fd-info: var(--color-accent);
+  --color-fd-warning: var(--color-warning);
+  --color-fd-error: var(--color-danger);
+  --color-fd-success: var(--color-success);
+  --color-fd-idea: var(--color-accent);
+  --color-fd-diff-remove: var(--color-danger-soft);
+  --color-fd-diff-remove-symbol: var(--color-danger);
+  --color-fd-diff-add: var(--color-success-soft);
+  --color-fd-diff-add-symbol: var(--color-success);
+
+  /* Radii: 3px chips and badges, 4px controls and code blocks, 6px panels. Larger steps are capped at 6px. */
+  --radius-*: initial;
+  --radius-xs: 3px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 6px;
+  --radius-xl: 6px;
+  --radius-2xl: 6px;
+  --radius-3xl: 6px;
+  --radius-4xl: 6px;
+  --radius-full: 6px;
+
+  /* Flat surfaces: shadow-lg is the single elevation, for floating overlays. No blur utilities. */
+  --shadow-*: initial;
+  --shadow-lg: 0 1px 2px rgb(29 35 33 / 0.06), 0 6px 18px rgb(29 35 33 / 0.1);
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --text-shadow-*: initial;
+  --blur-*: initial;
+}
+
+@layer base {
+  .dark {
+    --color-background: #131716;
+    --color-surface: #1a1f1e;
+    --color-elevated: #1a1f1e;
+    --color-sunken: #202625;
+    --color-hover: #252c2b;
+    --color-field: #151918;
+    --color-selected: #1b2c29;
+    --color-scrim: #050706;
+
+    --color-border: #2d3533;
+    --color-border-soft: #262d2c;
+    --color-border-strong: #3d4744;
+    --color-control-border: #6c7672;
+
+    --color-text: #e9e7e1;
+    --color-muted: #bec3be;
+    --color-subtle: #9aa19d;
+
+    --color-accent: #5fae9a;
+    --color-accent-hover: #74bfab;
+    --color-accent-fg: #0b1714;
+    --color-accent-soft: #1d3430;
+    --color-accent-soft-fg: #83c8b6;
+    --color-ring: #83c8b6;
+
+    --color-modified: #d09a52;
+    --color-modified-fg: #e2b571;
+    --color-modified-soft: #2f2618;
+    --color-on-modified: #121615;
+
+    --color-success: #5fbf87;
+    --color-success-soft: #16291f;
+    --color-success-soft-fg: #7dd3a0;
+    --color-warning: #d9aa45;
+    --color-warning-soft: #322914;
+    --color-warning-soft-fg: #e8c46e;
+    --color-danger: #e8786c;
+    --color-danger-hover: #f08d82;
+    --color-danger-fg: #1f0d0b;
+    --color-danger-soft: #3a1e1b;
+    --color-danger-soft-fg: #f59a8f;
+
+    --color-chrome: #0d1110;
+    --color-chrome-2: #181e1c;
+    --color-chrome-3: #222927;
+    --color-chrome-border: #252d2b;
+    --color-chrome-border-strong: #3e4845;
+    --color-chrome-text: #e9e7e1;
+    --color-chrome-muted: #9ea5a1;
+    --color-chrome-accent: #8bcbba;
+    --color-chrome-modified: #ddaa62;
+    --color-chrome-danger: #f4a49a;
+    --color-chrome-warning: #e9c46b;
+    --color-chrome-success: #7bcf9c;
+
+    --color-code-surface: #151918;
+    --color-code-text: #e9e7e1;
+    --color-code-border: #2d3533;
+
+    --color-fd-overlay: color-mix(in srgb, var(--color-scrim) 70%, transparent);
+
+    --shadow-lg: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px rgb(0 0 0 / 0.45);
+  }
+
+  /* The per-site reading values: the paper treatment sets prose at 16px over about 68 characters. */
+  :root {
+    --font-size-body: 1rem;
+    --line-height-body: 1.7;
+    --content-max-width: 34rem;
+    --font-size-inline-code: 0.875rem;
+  }
+
+  /*
+   * Syntax colors of the ledger Shiki theme, each at least 4.5:1 on --color-code-surface. Declared again under .dark
+   * so the references resolve against the dark tokens wherever the dark class is set.
+   */
+  :root,
+  .dark {
+    --shiki-foreground: var(--color-code-text);
+    --shiki-background: var(--color-code-surface);
+    --shiki-token-keyword: var(--color-danger-soft-fg);
+    --shiki-token-string: var(--color-accent-soft-fg);
+    --shiki-token-string-expression: var(--color-accent-soft-fg);
+    --shiki-token-constant: var(--color-warning-soft-fg);
+    --shiki-token-function: var(--color-code-text);
+    --shiki-token-parameter: var(--color-muted);
+    --shiki-token-punctuation: var(--color-muted);
+    --shiki-token-comment: var(--color-subtle);
+    --shiki-token-link: var(--color-accent-soft-fg);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    min-height: 100dvh;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+  }
+
+  code,
+  kbd,
+  samp,
+  pre {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  ::selection {
+    background-color: var(--color-accent-soft);
+    color: var(--color-accent-soft-fg);
+  }
+
+  .lucide {
+    stroke-width: 1.5;
+  }
+  .lucide * {
+    vector-effect: non-scaling-stroke;
+  }
+}
+
+/*
+ * Everything below is unlayered, so it outranks the layered Fumadocs utilities whatever their specificity.
+ */
+
+/* Focus: the Ledger outline on every focusable element. Fumadocs' focus-visible:outline-none loses to it. */
+:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+b,
+strong {
+  font-weight: 600;
+}
+
+/* The single elevation, with the dark value in the dark theme. */
+.shadow-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+@media (width < 64rem) {
+  .max-lg\:shadow-lg {
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+/* Inside scroll containers the outline is drawn inset, so the container does not clip it. */
+:is(#nd-sidebar, #nd-sidebar-mobile) a:focus-visible,
+:is(#nd-sidebar, #nd-sidebar-mobile) button:focus-visible,
+#nd-toc a:focus-visible,
+[role='dialog'] [role='option']:focus-visible,
+[role='dialog'] a:focus-visible,
+[role='tab']:focus-visible,
+pre:focus-visible {
+  outline-offset: -2px;
+}
+
+/* ---- Frame: the paper treatment. Header and sidebar on the canvas, content on the surface, 1px rules. ---- */
+
+#nd-notebook-layout {
+  background-color: var(--color-background);
+}
+
+#nd-subnav {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+#nd-subnav [data-header-body] {
+  border-color: var(--color-border);
+  gap: 0.75rem;
+}
+
+#nd-subnav [data-search-full] {
+  border-radius: var(--radius-sm);
+  border-color: var(--color-control-border);
+  background-color: var(--color-field);
+  color: var(--color-muted);
+  min-height: 2rem;
+}
+
+#nd-subnav [data-search-full] kbd {
+  border-radius: var(--radius-xs);
+  border-color: var(--color-border-strong);
+  background-color: var(--color-sunken);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+}
+
+#nd-sidebar {
+  border-inline-end: 1px solid var(--color-border);
+}
+
+#nd-sidebar-mobile {
+  border-inline-start: 1px solid var(--color-border);
+}
+
+:is(#nd-sidebar, #nd-sidebar-mobile) {
+  background-color: var(--color-background);
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+}
+
+:is(#nd-sidebar, #nd-sidebar-mobile) :is(a[data-active], button[data-state]) {
+  border-radius: var(--radius-sm);
+  color: var(--color-muted);
+}
+
+:is(#nd-sidebar, #nd-sidebar-mobile) :is(a[data-active], button[data-state]):hover {
+  background-color: var(--color-hover);
+  color: var(--color-text);
+}
+
+:is(#nd-sidebar, #nd-sidebar-mobile) a[data-active='true'] {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-weight: 500;
+  box-shadow: none;
+  outline: 1px solid var(--color-border);
+  outline-offset: -1px;
+}
+
+:is(#nd-sidebar, #nd-sidebar-mobile) a[data-active='true']::before {
+  content: none;
+}
+
+:is(#nd-sidebar, #nd-sidebar-mobile) a[data-active='true']:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: -2px;
+}
+
+/*
+ * The article and the table of contents sit on one sheet in the surface color: a grid item behind the main and toc
+ * areas, so it spans their full height whatever the sticky table of contents does.
+ */
+#nd-notebook-layout::before {
+  content: '';
+  grid-column: main-start / toc-end;
+  grid-row: toc-popover-start / main-end;
+  background-color: var(--color-surface);
+}
+
+#nd-toc {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+}
+
+/* Pointer targets of at least 24px. */
+#nd-subnav a[href='/'] {
+  min-height: 2rem;
+}
+
+#nd-toc a,
+[data-toc-popover] a {
+  padding-block: 0.25rem;
+}
+
+#nd-toc a {
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+}
+
+#nd-toc a[data-active='true'] {
+  color: var(--color-accent-soft-fg);
+}
+
+/* Breadcrumb above the page title: the folder of the page. */
+#nd-page > div:first-child > span.truncate {
+  color: var(--color-muted);
+  font-weight: 500;
+}
+
+#nd-page > * {
+  max-width: var(--content-max-width);
+}
+
+#nd-page[data-full='true'] > * {
+  max-width: 100%;
+}
+
+/* The On this page bar below the header on narrow screens, and its open list. */
+[data-toc-popover] > header {
+  background-color: var(--color-background);
+  border-color: var(--color-border);
+}
+
+/* Page title, description and actions. */
+#nd-page > h1 {
+  font-size: var(--text-2xl);
+  line-height: var(--text-2xl--line-height);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+#nd-page > h1 + p {
+  font-size: var(--text-lg);
+  line-height: var(--text-lg--line-height);
+  color: var(--color-muted);
+}
+
+.page-actions {
+  border-color: var(--color-border);
+}
+
+.page-actions button,
+.page-actions a {
+  border-radius: var(--radius-sm);
+}
+
+/* Previous and next links. */
+#nd-page a[href].flex-col.border {
+  border-radius: var(--radius-md);
+  border-color: var(--color-border);
+}
+
+/* ---- Prose ---- */
+
+.prose {
+  --tw-prose-body: var(--color-text);
+  --tw-prose-headings: var(--color-text);
+  --tw-prose-lead: var(--color-muted);
+  --tw-prose-links: var(--color-accent-soft-fg);
+  --tw-prose-bold: var(--color-text);
+  --tw-prose-counters: var(--color-subtle);
+  --tw-prose-bullets: var(--color-subtle);
+  --tw-prose-hr: var(--color-border);
+  --tw-prose-quotes: var(--color-text);
+  --tw-prose-quote-borders: var(--color-border-strong);
+  --tw-prose-captions: var(--color-muted);
+  --tw-prose-code: var(--color-text);
+  --tw-prose-th-borders: var(--color-border);
+  --tw-prose-td-borders: var(--color-border-soft);
+  --tw-prose-kbd: var(--color-text);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+}
+
+.prose :where(h2, h3, h4):not(:where(.not-prose, .not-prose *)) {
+  font-weight: 600;
+  color: var(--color-text);
+  scroll-margin-top: calc(var(--fd-docs-row-3, 0px) + 1rem);
+}
+
+.prose :where(h2):not(:where(.not-prose, .not-prose *)) {
+  font-size: var(--text-xl);
+  line-height: var(--text-xl--line-height);
+  margin-top: 2.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose :where(h3):not(:where(.not-prose, .not-prose *)) {
+  font-size: var(--text-lg);
+  line-height: var(--text-lg--line-height);
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose :where(h4):not(:where(.not-prose, .not-prose *)) {
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+  margin-top: 1.5rem;
+  margin-bottom: 0.375rem;
+}
+
+.prose
+  :where(strong, b, dt, th, h1, h1 strong, h2 strong, h3 strong, h4 strong):not(
+    :where(.not-prose, .not-prose *)
+  ) {
+  font-weight: 600;
+}
+
+.prose :where([class~='lead']):not(:where(.not-prose, .not-prose *)) {
+  font-size: var(--text-lg);
+  line-height: var(--text-lg--line-height);
+}
+
+.prose :where(kbd):not(:where(.not-prose, .not-prose *)) {
+  box-shadow: none;
+  border: 1px solid var(--color-control-border);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-inline-code);
+  padding: 0.0625rem 0.375rem;
+}
+
+.prose :where(h2 code, h3 code, h4 code):not(:where(.not-prose, .not-prose *)) {
+  font-size: 0.875em;
+}
+
+.prose :where(a):not(:where(.not-prose, .not-prose *, [data-card])) {
+  color: var(--color-accent-soft-fg);
+  font-weight: 500;
+  text-decoration-line: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  border-radius: var(--radius-xs);
+  transition: none;
+}
+
+.prose :where(a):not(:where(.not-prose, .not-prose *, [data-card])):hover {
+  opacity: 1;
+  text-decoration-thickness: 2px;
+}
+
+.prose :where(:not(pre) > code):not(:where(.not-prose, .not-prose *)) {
+  font-size: var(--font-size-inline-code);
+  font-weight: 400;
+  padding: 0.0625rem 0.3125rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xs);
+  background-color: var(--color-sunken);
+  color: var(--color-text);
+  overflow-wrap: break-word;
+}
+
+.prose :where(blockquote):not(:where(.not-prose, .not-prose *)) {
+  font-style: normal;
+  font-weight: 400;
+  color: var(--color-muted);
+  border-inline-start-width: 2px;
+}
+
+.prose :where(blockquote p):not(:where(.not-prose, .not-prose *))::before,
+.prose :where(blockquote p):not(:where(.not-prose, .not-prose *))::after {
+  content: none;
+}
+
+.prose :where(table):not(:where(.not-prose, .not-prose *)) {
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+  border-radius: var(--radius-md);
+  border-color: var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.prose :where(th):not(:where(.not-prose, .not-prose *)) {
+  background-color: var(--color-sunken);
+  color: var(--color-subtle);
+  font-size: var(--text-xs);
+  line-height: var(--text-xs--line-height);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  vertical-align: bottom;
+}
+
+.prose :where(td):not(:where(.not-prose, .not-prose *)) {
+  vertical-align: top;
+}
+
+.prose :where(th, td):not(:where(.not-prose, .not-prose *)) {
+  border-color: var(--color-border-soft);
+}
+
+/* Fumadocs wraps tables in a scroll container; it keeps the 6px panel shape. */
+.prose div:has(> table) {
+  border-radius: var(--radius-md);
+}
+
+/* ---- Code blocks ---- */
+
+.prose figure.shiki,
+figure.shiki {
+  border: 1px solid var(--color-code-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-code-surface);
+  color: var(--color-code-text);
+  box-shadow: none;
+}
+
+figure.shiki pre,
+figure.shiki pre code {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+}
+
+figure.shiki > div:first-child:not(:only-child) {
+  border-color: var(--color-code-border);
+  background-color: transparent;
+  color: var(--color-subtle);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+figure.shiki button {
+  border-radius: var(--radius-sm);
+  color: var(--color-muted);
+  min-width: 1.75rem;
+  min-height: 1.75rem;
+}
+
+figure.shiki button:hover {
+  background-color: var(--color-hover);
+  color: var(--color-text);
+}
+
+.shiki.has-focused .line:not(.focused) {
+  filter: none;
+  opacity: 0.6;
+}
+
+/* ---- Callouts in content ---- */
+
+.mdx-callout {
+  line-height: var(--line-height-body);
+}
+
+.mdx-callout p,
+.mdx-callout ul,
+.mdx-callout ol {
+  margin-block: 0;
+}
+
+.mdx-callout .space-y-1 > div > * + * {
+  margin-top: 0.5rem;
+}
+
+/* ---- Steps ---- */
+
+.ledger-steps {
+  list-style: none;
+  counter-reset: ledger-step;
+  margin-block: 1.5rem;
+  padding: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.prose .ledger-steps {
+  padding-inline-start: 0;
+}
+
+.ledger-step {
+  counter-increment: ledger-step;
+  position: relative;
+  margin: 0;
+  padding: 1rem 0 1rem 2.75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.prose .ledger-step {
+  margin: 0;
+  padding-inline-start: 2.75rem;
+}
+
+.ledger-step::marker {
+  content: none;
+}
+
+.ledger-step::before {
+  content: counter(ledger-step);
+  position: absolute;
+  inset-inline-start: 0;
+  top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-xs);
+  background-color: var(--color-sunken);
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.ledger-step-title {
+  margin: 0.125rem 0 0.25rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.prose .ledger-step-title {
+  margin: 0.125rem 0 0.25rem;
+}
+
+.ledger-step-body > :first-child {
+  margin-top: 0;
+}
+
+.ledger-step-body > :last-child {
+  margin-bottom: 0;
+}
+
+/* ---- Screenshots ---- */
+
+.ledger-screenshot {
+  margin-block: 1.75rem;
+}
+
+.ledger-screenshot a {
+  display: block;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-sunken);
+}
+
+.ledger-screenshot a:focus-visible {
+  outline-offset: 2px;
+}
+
+.ledger-screenshot figcaption {
+  margin-top: 0.5rem;
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  color: var(--color-muted);
+}
+
+/* ---- Facts strip ---- */
+
+.facts-strip {
+  margin-block: 1.5rem;
+}
+
+/* ---- Search dialog: the overlay recipe of the app ---- */
+
+.fixed.inset-0.z-50.bg-fd-overlay {
+  background-color: var(--color-fd-overlay);
+}
+
+[role='dialog'].bg-fd-popover {
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-elevated);
+  box-shadow: var(--shadow-lg);
+}
+
+[role='dialog'].bg-fd-popover input {
+  font-size: var(--text-lg);
+}
+
+[role='dialog'] [role='option'] {
+  border-radius: var(--radius-sm);
+}
+
+[role='dialog'] [role='option'][aria-selected='true'] {
+  background-color: var(--color-hover);
+  color: var(--color-text);
+  outline: 2px solid var(--color-ring);
+  outline-offset: -2px;
+}
+
+/* Popovers and menus: overlay surface with the strong outline and the single elevation. */
+[data-radix-popper-content-wrapper] > * {
+  border-color: var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-elevated);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Overlay behind the sidebar drawer on narrow screens: the flat scrim. */
+.fixed.inset-0.backdrop-blur-xs {
+  background-color: var(--color-fd-overlay);
+}
+
+/* Scroll areas and search results end without a fade. */
+[class*='mask-['] {
+  mask-image: none;
+}
+
+/* ---- Header links ---- */
+
+.nav-button {
+  text-decoration: none;
+}
+
+/* ---- Footer ---- */
+
+.site-footer {
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-subtle);
+  font-size: var(--text-xs);
+  line-height: var(--text-xs--line-height);
+}
+
+.site-footer a {
+  color: var(--color-accent-soft-fg);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ---- Forced colors and motion ---- */
+
+@media (forced-colors: active) {
+  [data-theme-switch] button[aria-pressed='true'],
+  [aria-pressed='true'],
+  a[aria-current='page'],
+  :is(#nd-sidebar, #nd-sidebar-mobile) a[data-active='true'] {
+    forced-color-adjust: none;
+    background-color: Highlight;
+    color: HighlightText;
+  }
+  :where([aria-pressed='true'], a[aria-current='page'], :is(#nd-sidebar, #nd-sidebar-mobile) a[data-active='true']) * {
+    color: inherit;
+  }
+  :focus-visible {
+    outline-color: CanvasText;
+  }
+  :is(#nd-sidebar, #nd-sidebar-mobile) a[data-active='true']:focus-visible,
+  [role='dialog'] [role='option'][aria-selected='true'] {
+    outline-color: HighlightText;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

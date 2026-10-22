@@ -1,0 +1,55 @@
+---
+title: Start here
+description: Change the settings of your Minecraft server's plugins in a web editor, check every change before it is applied, and see what the plugin actually did.
+---
+
+ComfiConf lets you edit plugin settings at [app.comficonf.com](https://app.comficonf.com) instead of
+hand-editing YAML. You install the ComfiConf bridge plugin on your server, pair the server with your account
+once, and open any plugin that supports ComfiConf. The plugin checks, saves and activates each change itself,
+and tells you what really happened.
+
+<FactsStrip
+  facts={[
+    { label: 'Minecraft', value: '26.1.2, 26.2, 26.3' },
+    { label: 'Server', value: 'Paper, Purpur', mono: false },
+    { label: 'Java', value: '25' },
+    { label: 'Bridge', value: 'COMFICONF_BRIDGE_VERSION' },
+  ]}
+/>
+
+## Set up your server
+
+Five short steps take a new server from nothing to its first applied change:
+
+1. [Check the requirements](/getting-started/requirements): Paper or Purpur 26.1.2, 26.2 or 26.3 on Java 25.
+2. [Install the bridge](/getting-started/install-the-bridge): one JAR in your `plugins` folder, nothing to
+   configure.
+3. [Create an account](/getting-started/create-an-account) at app.comficonf.com.
+4. [Pair your server](/getting-started/pair-your-server) with <CommandChip>/comficonf pair</CommandChip> and the
+   code it shows.
+5. [Make your first edit](/getting-started/first-edit), from finding a setting to applying it.
+
+<Callout title="What ComfiConf never does on your server">
+  The bridge cannot browse, read or write files, run console commands, or execute code. ComfiConf only reads
+  and changes the settings that a plugin exposes through the ComfiConf API, and that plugin decides how they
+  are checked, saved and activated. [Read more](/getting-started/what-is-comficonf).
+</Callout>
+
+## Find your way around
+
+- [Using the editor](/editor/finding-settings): search and filters, every kind of control, lists and bulk
+  editing, then reviewing and applying your changes.
+- [Apply outcomes](/editor/apply-outcomes): what each result means, from **Changes applied and active** to
+  **Outcome unknown**.
+- [Servers](/servers/server-list): the server list, the server page, renaming and removing a server.
+- [The bridge plugin](/bridge/commands-and-permissions): commands, the `comficonf.admin` permission,
+  `config.yml`, updating, and [what leaves your server](/bridge/what-leaves-your-server).
+- [Settings](/settings): your password, sessions, theme and server access.
+- [Troubleshooting](/troubleshooting) and the [FAQ](/faq), including the known limitations.
+- [Supported plugins](/supported-plugins): what a plugin with ComfiConf support looks like, and the
+  ComfiConfDemo plugin to try it with.
+
+## For plugin developers
+
+To make your own plugin's settings editable in ComfiConf, read the
+[developer documentation](https://developers.comficonf.com).

@@ -1,0 +1,58 @@
+---
+title: Pair your server
+description: Connect your server to your account once, with a one-time code from /comficonf pair.
+---
+
+Pairing links your server to your ComfiConf account. You do it once per server: the bridge remembers the
+pairing across restarts and updates.
+
+<Steps>
+  <Step title="Ask the server for a code">
+    Run <CommandChip>/comficonf pair</CommandChip> in the console, or in game as an operator. The bridge
+    replies with a pairing code of 8 characters, such as `K7QX-M2PD`, and the address to enter it at. In game,
+    you can click the code to copy it.
+  </Step>
+  <Step title="Open the pairing page">
+    Open [app.comficonf.com/pair](https://app.comficonf.com/pair), or choose **Pair a server** on the
+    website.
+  </Step>
+  <Step title="Enter the code">
+    Type the code into **Pairing code**. Upper or lower case and the dash do not matter, and pasting works too.
+    Optionally fill in **Display name (optional)**; without it, ComfiConf uses the name from the bridge's
+    `config.yml`.
+  </Step>
+  <Step title="Pair the server">
+    Choose **Pair server**. ComfiConf confirms that the server is paired and opens its server page, which lists
+    the plugins on it that support ComfiConf.
+  </Step>
+</Steps>
+
+```text title="Server console"
+Pairing code: K7QX-M2PD
+Enter it at https://app.comficonf.com/pair within 10 minutes (expires at 18:42 UTC).
+Only you can see this code. It works once.
+```
+
+## About the code
+
+- A code works **once** and **expires after 10 minutes**. Run <CommandChip>/comficonf pair</CommandChip>
+  again for a new one.
+- Only the person who ran the command sees it. Do not post it in chat or in a screenshot.
+- Codes never contain `0`, `1`, `I`, `L` or `O`, so they cannot be confused with each other. If the page says
+  **Codes never contain 0, 1, I, L or O.**, check the characters you typed.
+
+## After pairing
+
+Back in the console, <CommandChip>/comficonf status</CommandChip> now shows **Connected and paired** and the
+server's name. The server appears under **Your servers** on the website.
+
+A server belongs to one account. To move it to another account, remove it on the website (see
+[Rename and remove](/servers/rename-and-remove)) and pair it again from the other account. If
+<CommandChip>/comficonf pair</CommandChip> says the server is already paired, it is still paired with an
+account.
+
+If pairing fails, see [Pairing problems](/troubleshooting#pairing-problems).
+
+## Next
+
+[Make your first edit](/getting-started/first-edit).

@@ -1,0 +1,48 @@
+name: Build and push the docs image
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+# docker/* actions run on Node 24 until they ship Node 24 releases of their own.
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  IMAGE: ghcr.io/alazso/comficonf-docs
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: meta
+        name: Resolve build metadata
+        run: |
+          echo "short_sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+          echo "build_date=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+          # Newest version of the Modrinth project; 0.1.0 while the project does not exist.
+          VERSION=$(curl -fsSL https://api.modrinth.com/v2/project/comficonf/version | jq -r 'sort_by(.date_published) | last | .version_number // empty' || true)
+          echo "bridge_version=${VERSION:-0.1.0}" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: true
+          build-args: |
+            GIT_SHA=${{ github.sha }}
+            BUILD_DATE=${{ steps.meta.outputs.build_date }}
+            COMFICONF_BRIDGE_VERSION=${{ steps.meta.outputs.bridge_version }}
+          tags: |
+            ${{ env.IMAGE }}:latest
+            ${{ env.IMAGE }}:sha-${{ steps.meta.outputs.short_sha }}

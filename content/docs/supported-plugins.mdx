@@ -1,0 +1,58 @@
+---
+title: Supported plugins
+description: What a plugin with ComfiConf support looks like, and the ComfiConfDemo plugin to try ComfiConf with.
+---
+
+ComfiConf edits plugins that integrate its developer API. Each such plugin decides which of its settings appear
+in the editor, how they are checked, and how a change is saved and activated. Plugins without ComfiConf support
+are never touched.
+
+## How to recognize one
+
+- **On the server page.** After you install a plugin with ComfiConf support and restart the server, it appears
+  under **Plugins** on the server page, with its version and its settings pages.
+- **In the console.** <CommandChip>/comficonf plugins</CommandChip> lists every plugin that registered settings.
+- **On its store page.** Authors usually say that their plugin supports ComfiConf. On Modrinth, a plugin can list
+  ComfiConf as an optional dependency.
+
+A plugin with ComfiConf support is built to keep working without the bridge. You can install the bridge at any
+time, and remove it again, without changing the plugin's files.
+
+## What the editor shows for a plugin
+
+Everything in the editor comes from the plugin's own description of its settings:
+
+- **Settings pages.** A plugin can share one page per configuration file, or split its settings over several
+  pages. Each page is reviewed and applied on its own.
+- **Sections and settings**, with the plugin's labels, help texts, limits and choices.
+- **Lists** named after the plugin's own entries, such as vouchers, kits or arenas.
+- Restart notes on settings that take effect only after a restart.
+- **Secrets** that the plugin keeps on your server.
+
+Only the settings a plugin declares are shown. Anything else in its files stays private and stays as it is.
+
+## ComfiConfDemo
+
+ComfiConfDemo is a small voucher plugin made to show a complete ComfiConf integration. Install it on a test
+server to try every part of the editor before your own plugins support ComfiConf.
+
+- **Download:** `ComfiConfDemo-COMFICONF_BRIDGE_VERSION.jar` from the
+  <ReleaseLink to="githubRelease">GitHub release of the ComfiConf developer API</ReleaseLink>. It is not listed
+  in the plugin stores.
+- **Settings page:** **Vouchers**, with general settings such as the message prefix, announcements, a daily
+  redemption limit, a bonus multiplier, the storage mode (which needs a restart), disabled worlds, a welcome
+  message and a write-only webhook address, and a list of vouchers with a material, a cooldown, a permission, a
+  weight and a rarity.
+- **Commands:** `/vouchers` lists the vouchers; `/vouchers info <id>`, `/vouchers settings`,
+  `/vouchers redeem <id> <player>`, `/vouchers status` and `/vouchers reload` show and simulate the rest.
+  `/vouchers reload` needs `comficonf.demo.admin`.
+- **Its file:** `plugins/ComfiConfDemo/config.yml`. Edit it by hand and run `/vouchers reload`, or edit it in
+  ComfiConf. Changes from ComfiConf keep the file's comments and every key the editor does not show.
+
+All screenshots in this documentation show ComfiConfDemo.
+
+## Asking for support in a plugin you use
+
+If you would like a plugin you use to support ComfiConf, point its author to the
+[developer documentation](https://developers.comficonf.com). Adding support takes a few classes, and the plugin
+keeps full control over its files.

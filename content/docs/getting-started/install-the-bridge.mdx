@@ -1,0 +1,46 @@
+---
+title: Install the bridge
+description: Put the ComfiConf bridge in your plugins folder, restart, and check that it is connected.
+---
+
+The bridge is a single JAR, `ComfiConf-Bridge-COMFICONF_BRIDGE_VERSION.jar`. Download it from
+<ReleaseLink to="modrinth">Modrinth</ReleaseLink> or <ReleaseLink to="hangar">Hangar</ReleaseLink>. Both
+stores carry the same file.
+
+<Steps>
+  <Step title="Add the JAR">
+    Put `ComfiConf-Bridge-COMFICONF_BRIDGE_VERSION.jar` into your server's `plugins` folder.
+  </Step>
+  <Step title="Restart the server">
+    Restart the server so Paper loads the new plugin. Avoid `/reload`.
+  </Step>
+  <Step title="Check the connection">
+    In the console, run <CommandChip>/comficonf status</CommandChip>. The **Connection** line should read
+    **Connected, not paired**, and **Paired server** should read **not paired, run /comficonf pair**.
+  </Step>
+</Steps>
+
+```text title="/comficonf status"
+ComfiConf bridge COMFICONF_BRIDGE_VERSION
+ Connection: Connected, not paired
+ Backend: app.comficonf.com
+ Paired server: not paired, run /comficonf pair
+ Resources: 0 from 0 plugins
+```
+
+**Resources** counts the settings pages that plugins on your server have registered with ComfiConf. It stays at
+0 until a plugin with ComfiConf support is installed.
+
+## Nothing to configure
+
+The bridge connects to ComfiConf at app.comficonf.com on its own. On first start it creates
+`plugins/ComfiConf/config.yml` with two optional settings, the suggested server name and debug logging; see
+[Configuration](/bridge/configuration).
+
+If the connection line shows **Connecting** or **Disconnected** instead, see
+[The bridge does not connect](/troubleshooting#the-bridge-does-not-connect).
+
+## Next
+
+[Create an account](/getting-started/create-an-account), then
+[pair your server](/getting-started/pair-your-server).

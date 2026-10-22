@@ -1,0 +1,49 @@
+---
+title: What leaves your server
+description: Exactly what the bridge sends to ComfiConf, when, and what it never sends.
+---
+
+ComfiConf works through the bridge's connection to the ComfiConf service, so some data has to leave your server.
+This page lists all of it.
+
+## When the bridge connects
+
+- A random installation id and a public key. The matching private key is generated on your server and never
+  leaves it.
+- The bridge version.
+- The server name from `config.yml`.
+- The server software and the Minecraft version.
+
+## When you open the editor
+
+- The names and versions of the plugins that registered settings with ComfiConf.
+- The descriptions of those settings: their labels, help texts, limits and choices.
+- Their current values. Values that a plugin marks as sensitive are never sent; ComfiConf only learns whether
+  such a value is set.
+- The server's list of block and item names, for the material picker.
+
+## When you apply a change
+
+- The result, and the changed settings with shortened old and new values. ComfiConf keeps them as your server's
+  change history under **Recent activity**. Sensitive values never appear there either.
+
+## Never sent
+
+<Callout tone="success" title="Not sent">
+  Player data, chat, files, console output, logs, or anything a plugin does not expose.
+</Callout>
+
+- The bridge sends no analytics or metrics.
+- It logs no configuration values, keys or pairing codes on your server, even with `debug: true`.
+- It cannot read files or run commands, so it has nothing else to send.
+
+## Your server's address
+
+The service sees your server's IP address when the bridge connects. It is used for rate limiting and can appear
+in the service's logs.
+
+## Values you replace
+
+A new value for a write-only secret, such as a webhook address, goes from your browser through ComfiConf to your
+server when you apply it, and the plugin stores it. ComfiConf never shows it again, and it is not part of the
+change history.

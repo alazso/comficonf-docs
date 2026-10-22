@@ -1,0 +1,4 @@
+{
+  "title": "Servers",
+  "pages": ["server-list", "server-page", "rename-and-remove"]
+}

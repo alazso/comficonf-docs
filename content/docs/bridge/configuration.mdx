@@ -1,0 +1,43 @@
+---
+title: Configuration
+description: The two optional settings in plugins/ComfiConf/config.yml.
+---
+
+The bridge connects to ComfiConf at app.comficonf.com with nothing to set up. On first start it creates
+`plugins/ComfiConf/config.yml` with two optional settings.
+
+```yaml title="plugins/ComfiConf/config.yml"
+# Name suggested for this server when it is paired (1 to 64 characters).
+# It can be renamed on the website afterwards.
+server-name: "Minecraft Server"
+
+# Logs the type and request id of every message exchanged with ComfiConf.
+# Configuration values, keys and pairing codes are never logged.
+debug: false
+```
+
+| Setting | Default | Meaning |
+| --- | --- | --- |
+| `server-name` | `Minecraft Server` | Name suggested when pairing; rename it on the website later |
+| `debug` | `false` | Logs message types, never values, keys or codes |
+
+Run <CommandChip>/comficonf reconnect</CommandChip> after editing the file.
+
+## server-name
+
+The name ComfiConf gives the server when you pair it, unless you enter a **Display name (optional)** on the
+pairing page. Changing it later does not rename a paired server; use **Rename** on the
+[server page](/servers/rename-and-remove) instead.
+
+## debug
+
+With `debug: true`, the bridge writes a line to the server log for every message it exchanges with ComfiConf,
+with the message's type and request id. Configuration values, keys and pairing codes are never logged, with or
+without debug. Turn it on only while you look into a problem, because it makes the log longer.
+
+## Other files in the folder
+
+The bridge also keeps `identity.json` in `plugins/ComfiConf`. It identifies this server to ComfiConf and holds
+the server's private key, which never leaves the server. Keep the file when you
+[update the bridge](/bridge/updating), and never copy it to another server: two servers with the same identity
+replace each other's connection.

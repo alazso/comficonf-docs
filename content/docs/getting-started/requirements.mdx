@@ -1,0 +1,38 @@
+---
+title: Requirements
+description: The server software, Java version and network access the ComfiConf bridge needs.
+---
+
+<FactsStrip
+  facts={[
+    { label: 'Minecraft', value: '26.1.2, 26.2, 26.3' },
+    { label: 'Server', value: 'Paper, Purpur', mono: false },
+    { label: 'Java', value: '25' },
+    { label: 'Folia', value: 'Not supported', mono: false, muted: true },
+  ]}
+/>
+
+## Server software
+
+- **Paper 26.1.2, 26.2 or 26.3**, or a **Purpur** build based on one of them.
+- **Java 25.**
+- **Folia is not supported yet.** Spigot and Bukkit servers are not supported either, because the bridge uses
+  Paper's own API.
+
+## Network
+
+The bridge makes one outbound, encrypted connection to `app.comficonf.com` over HTTPS (port 443). Nothing
+connects to your server, so no port has to be opened. If your host blocks outgoing connections, allow this one.
+
+## An account and a plugin to edit
+
+- An account at [app.comficonf.com](https://app.comficonf.com). You create it with an email address and a
+  password; see [Create an account](/getting-started/create-an-account).
+- At least one plugin with ComfiConf support. To try ComfiConf before your own plugins support it, install the
+  ComfiConfDemo plugin; see [Supported plugins](/supported-plugins).
+
+## Permissions on the server
+
+You run <CommandChip>/comficonf pair</CommandChip> once, in the console or in game as an operator. Every
+`/comficonf` command needs the `comficonf.admin` permission, which operators have by default. See
+[Commands and permissions](/bridge/commands-and-permissions).

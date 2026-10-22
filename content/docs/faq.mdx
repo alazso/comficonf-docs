@@ -1,0 +1,76 @@
+---
+title: FAQ
+description: Common questions about ComfiConf, and its known limitations.
+---
+
+## Can ComfiConf edit any plugin?
+
+No. It edits plugins that support ComfiConf: their authors describe the settings with the ComfiConf developer
+API. Plugins without that support are never touched, and their files stay as they are. See
+[Supported plugins](/supported-plugins).
+
+## Can ComfiConf read my files or run commands?
+
+No. The bridge cannot browse, read or write files, run console commands, or execute code. It only calls the
+plugins that registered settings with it, and each plugin decides what it accepts, how it saves and how it
+activates a change.
+
+## Do I need to open a port, or give ComfiConf FTP or RCON access?
+
+No. The bridge makes one outbound, encrypted connection to app.comficonf.com. Nothing connects to your server.
+
+## Does the bridge slow down my server?
+
+All network work runs off the server's main thread. Plugins decide where their own callbacks run.
+
+## Can I still edit the YAML files by hand?
+
+Yes. The plugin owns its files, and hand edits keep working. If you change a file while someone has the editor
+open, ComfiConf notices: the editor shows **Changed elsewhere**, and applying older values is refused instead of
+overwriting your edit.
+
+## Does ComfiConf keep comments and other keys in my files?
+
+ComfiConf only sends the changed values to the plugin; the plugin writes its own file. Plugins built on the
+ComfiConf API's helpers keep the keys the editor does not show, and the comments of keys in sections. Comments of
+list items and the exact formatting are not guaranteed to survive.
+
+## Is there a backup before a change is saved?
+
+Plugins that use the ComfiConf API's file helper write a backup and save atomically. Whether a plugin does is up
+to the plugin.
+
+## Can several people manage one server?
+
+Not yet. One account owns a server, and there are no shared roles or collaborators. To move a server to another
+account, remove it and pair it again from the other account.
+
+## I forgot my password.
+
+There is no password reset by email yet, so the account cannot be recovered by email. Keep your password in a
+password manager.
+
+## Does ComfiConf work on Folia, Spigot or Bukkit?
+
+No. The bridge runs on Paper 26.1.2, 26.2 and 26.3 and on Purpur builds based on them. Folia is not supported
+yet.
+
+## What happens to my server if ComfiConf is down?
+
+Nothing changes on the server. Plugins keep running with the settings they have, the bridge retries the
+connection on its own, and you can still edit the files by hand.
+
+## Known limitations
+
+- **One owner per server.** There are no shared roles or collaborators yet.
+- **No email verification or password reset by email.** Accounts use an email address and a password.
+- **Folia is not supported.**
+- **Material icons are not shown.** The material picker uses names and categories.
+- **Secrets inside lists.** Sensitive settings are limited to single text settings outside lists.
+- **Formatting of YAML files.** Comments of list items and the exact formatting of a file are not guaranteed to
+  survive a change made through ComfiConf.
+- **Some text rules are checked late.** A few advanced text patterns are checked when you review, not while you
+  type.
+- **Apply outcomes are remembered for 15 minutes.** After a bridge restart or a longer outage, an apply whose
+  answer was lost may be reported as **This change may already have been applied**; reload to see the current
+  values.

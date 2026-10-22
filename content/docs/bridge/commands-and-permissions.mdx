@@ -1,0 +1,65 @@
+---
+title: Commands and permissions
+description: The /comficonf commands of the bridge and the comficonf.admin permission.
+---
+
+The bridge adds one command, `/comficonf`, with five subcommands. Run them in the server console, or in game as
+a player with the permission. `/comficonf` on its own runs `status`.
+
+| Command | What it does |
+| --- | --- |
+| <CommandChip>/comficonf status</CommandChip> | Connection state, paired server, registered settings, last error |
+| <CommandChip>/comficonf pair</CommandChip> | Shows a pairing code |
+| <CommandChip>/comficonf reconnect</CommandChip> | Reloads `config.yml` and reconnects |
+| <CommandChip>/comficonf plugins</CommandChip> | Lists the settings that plugins registered |
+| <CommandChip>/comficonf help</CommandChip> | Lists the commands |
+
+## Permission
+
+All commands need `comficonf.admin`. Operators have it by default. Without it, the bridge answers **You do not
+have permission to use this command.**
+
+Grant `comficonf.admin` only to people you trust with your ComfiConf account: a pairing code from
+<CommandChip>/comficonf pair</CommandChip> lets whoever enters it first pair the server with their own account.
+
+## /comficonf status
+
+```text title="/comficonf status"
+ComfiConf bridge COMFICONF_BRIDGE_VERSION
+ Connection: Connected and paired
+ Backend: app.comficonf.com
+ Paired server: Survival
+ Resources: 1 from 1 plugin
+```
+
+| Line | Shows |
+| --- | --- |
+| **Connection** | **Connected and paired**, **Connected, not paired**, **Connecting** or **Disconnected** |
+| **Backend** | The address the bridge connects to: `app.comficonf.com` |
+| **Paired server** | The server's name on ComfiConf, **not paired, run /comficonf pair**, or **unknown while disconnected** |
+| **Resources** | How many settings pages plugins registered, and from how many plugins |
+| **Last error** | While not connected: why the last attempt failed, and when the next one starts |
+
+## /comficonf pair
+
+Shows a code that pairs this server with the ComfiConf account that enters it, valid once and for 10 minutes.
+See [Pair your server](/getting-started/pair-your-server). If the server is already paired, the bridge says so
+instead: remove the server on the website first to pair it with another account.
+
+## /comficonf reconnect
+
+Reads `plugins/ComfiConf/config.yml` again and opens a new connection: **Reloaded config.yml and reconnecting to
+the ComfiConf backend. Run /comficonf status to check the connection.** Use it after you edit `config.yml`.
+
+## /comficonf plugins
+
+Lists every plugin that registered settings with ComfiConf, with its version, and under it each settings page
+with its id and name:
+
+```text title="/comficonf plugins"
+Configuration resources (1):
+ ComfiConfDemo COMFICONF_BRIDGE_VERSION
+   comficonf-demo:vouchers - Vouchers
+```
+
+With no supported plugin installed, it says **No plugin has registered a configuration resource.**
