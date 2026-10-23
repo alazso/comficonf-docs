@@ -10,7 +10,7 @@
 @source not inline("*:rounded-full fd-step fd-steps transition backdrop-filter focus-visible:ring-2 text-6xl");
 
 /*
- * Ledger design tokens, with the names and values of the ComfiConf web app (apps/web/src/styles/index.css). Light
+ * Ledger design tokens, with the names and values of the ComfiConf web app. Light
  * values live in the theme block, dark values in the dark class block of the base layer. Every --color-* value is a
  * lowercase 6-digit hex. The code-* tokens and the --font-size-body, --line-height-body and --content-max-width
  * variables are additions of the documentation sites.

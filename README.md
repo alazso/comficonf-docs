@@ -122,70 +122,14 @@ render no link, so they are not checked. Links to this repository on GitHub (the
 tags `latest` and `sha-<short sha>`, on every push to `main` and on demand (**Run workflow**, `workflow_dispatch`).
 The image is a Next.js standalone server on `node:24.22.1-alpine`, listening on port 3000 as the `node` user.
 
-### On the server
-
-Caddy runs on the host and proxies to the containers through ports published on localhost. One Compose file serves
-both documentation sites, for example `/opt/comficonf-sites/compose.yaml`:
-
-```yaml
-services:
-  docs:
-    image: ghcr.io/alazso/comficonf-docs:latest
-    restart: unless-stopped
-    ports:
-      - "127.0.0.1:3101:3000"
-
-  developers:
-    image: ghcr.io/alazso/comficonf-developers:latest
-    restart: unless-stopped
-    ports:
-      - "127.0.0.1:3102:3000"
-```
-
-Docker publishes ports past `ufw`, so binding them to `127.0.0.1` is what keeps them private: only Caddy, on the
-same host, reaches them.
-
-Start or update the sites:
-
-```bash
-cd /opt/comficonf-sites && sudo docker compose pull && sudo docker compose up -d
-```
-
-Add the two site blocks to `/etc/caddy/Caddyfile`, next to `app.comficonf.com`. The global options that trust
-Cloudflare's address ranges apply to them as well, and the Cloudflare origin certificate covers
-`*.comficonf.com`.
-
-```caddyfile
-docs.comficonf.com {
-	tls /etc/caddy/origin.pem /etc/caddy/origin.key
-	header Strict-Transport-Security "max-age=31536000"
-	encode zstd gzip
-	reverse_proxy 127.0.0.1:3101
-}
-
-developers.comficonf.com {
-	tls /etc/caddy/origin.pem /etc/caddy/origin.key
-	header Strict-Transport-Security "max-age=31536000"
-	encode zstd gzip
-	reverse_proxy 127.0.0.1:3102
-}
-```
-
-```bash
-sudo systemctl reload caddy
-```
-
-In Cloudflare, the `docs` and `developers` records are proxied, like the record of `app`.
+Run the image behind a reverse proxy and publish its port 3000 on localhost only. Updating means pulling
+`ghcr.io/alazso/comficonf-docs:latest` again and recreating the container.
 
 ### Notes
 
 - **GHCR packages are private by default.** The server cannot pull the image until the package is made public
   (on GitHub: the package, **Package settings**, **Change visibility**) or the host runs `docker login ghcr.io`
   with a token that has the `read:packages` scope.
-- **Proxy to the published port, not to the container name.** Proxying to a container by name requires Caddy to
-  share the container's Docker network, and `docker compose down` deletes that network and silently detaches
-  Caddy, which then answers 502. Caddy on the host proxying to `127.0.0.1:3101` and `127.0.0.1:3102`, as above,
-  avoids this.
 - **Scheduled workflows.** GitHub disables scheduled workflows in a public repository after 60 days without
   repository activity. The deploy workflow has no schedule, so it is not affected. If a schedule is added later and
   the workflow shows as disabled under **Actions**, choose **Enable workflow**. If a push does not start a deploy,
