@@ -20,7 +20,7 @@ export const gitConfig = {
 };
 
 /**
- * Release locations that do not exist yet. A `null` entry renders as plain text and is skipped by the link check
+ * Release locations. A `null` entry is not published yet: it renders as plain text and is skipped by the link check
  * (`scripts/check-links.mjs`); set the URL once the page is published.
  */
 export const releaseLinks: Record<ReleaseLinkKey, string | null> = {
@@ -29,7 +29,7 @@ export const releaseLinks: Record<ReleaseLinkKey, string | null> = {
   /** Hangar project page. */
   hangar: null,
   /** Public repository with the developer API, the demo plugin and the developer guide. */
-  apiRepository: null,
+  apiRepository: 'https://github.com/alazso/comficonf-api',
   /** GitHub release of the public API repository with the API JAR, the demo plugin JAR and SHA256SUMS. */
   githubRelease: null,
 };
