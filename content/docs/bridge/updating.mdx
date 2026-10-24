@@ -3,12 +3,20 @@ title: Updating the bridge
 description: Replace the bridge JAR with a newer version without pairing again.
 ---
 
-New versions of the bridge are published on <ReleaseLink to="modrinth">Modrinth</ReleaseLink> and
-<ReleaseLink to="hangar">Hangar</ReleaseLink>. The current version is `COMFICONF_BRIDGE_VERSION`.
+<Released to="modrinth hangar">
+  New versions of the bridge are published on <ReleaseLink to="modrinth">Modrinth</ReleaseLink> and
+  <ReleaseLink to="hangar">Hangar</ReleaseLink>. The current version is `COMFICONF_BRIDGE_VERSION`.
+</Released>
+
+<Unreleased to="modrinth hangar">
+  There is no version to update to yet: the bridge is not published. New versions will be published on Modrinth
+  and Hangar.
+</Unreleased>
 
 <Steps>
   <Step title="Download the new JAR">
-    Download the new `ComfiConf-Bridge-<version>.jar` from Modrinth or Hangar.
+    Download the new `ComfiConf-Bridge-<version>.jar`<Released to="modrinth hangar"> from Modrinth or
+    Hangar</Released>.
   </Step>
   <Step title="Replace the old JAR">
     Stop the server, delete the old `ComfiConf-Bridge-…jar` from the `plugins` folder, and put the new one in.
@@ -34,4 +42,5 @@ without ComfiConf.
 ## Versions
 
 The bridge, the developer API and the ComfiConfDemo plugin share one version number, and versions follow
-Semantic Versioning. Read the release notes on the store page before you update.
+Semantic Versioning.<Released to="modrinth hangar"> Read the release notes on the store page before you
+update.</Released>

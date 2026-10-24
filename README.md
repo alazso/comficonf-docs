@@ -55,6 +55,7 @@ Components available in MDX, besides Markdown:
 | `<Badge tone="success">Applied</Badge>` | Status badges as the app draws them |
 | `<CommandChip>`, `<Kbd>` | Commands and keys |
 | `<ReleaseLink to="modrinth">Modrinth</ReleaseLink>` | A release location from `lib/shared.ts`; plain text while its URL is unset |
+| `<Released to="modrinth hangar">`, `<Unreleased to="modrinth hangar">` | Wording for one release state, resolved at build time so the page and its Markdown copy match: `Released` keeps its content when every listed release link has a URL, `Unreleased` when none has one, and a partly set list fails the build |
 
 `Callout`, `FactsStrip`, `Steps`, `Kbd` and `CommandChip` have the same name and API in both documentation
 repositories, and `Callout`, `FactsStrip` and `Badge` match the web app's components.
