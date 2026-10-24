@@ -10,6 +10,10 @@ updates:
       docs-stack:
         patterns:
           - "*"
+    ignore:
+      # @types/node follows the Node 24 base image of the Dockerfile.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: /
