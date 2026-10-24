@@ -7,7 +7,7 @@
  * Fumadocs utilities that Ledger does not allow are not generated: pill radii, ring focus indicators (box-shadow),
  * the transition utility that lists backdrop-filter, and the step circles.
  */
-@source not inline("*:rounded-full fd-step fd-steps transition backdrop-filter focus-visible:ring-2 text-6xl");
+@source not inline("*:rounded-full fd-step fd-steps transition backdrop-filter focus-visible:ring-2 [&:focus-visible_img]:ring-2 text-6xl");
 
 /*
  * Ledger design tokens, with the names and values of the ComfiConf web app. Light
