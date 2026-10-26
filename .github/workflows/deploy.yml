@@ -9,7 +9,6 @@ permissions:
   contents: read
   packages: write
 
-# docker/* actions run on Node 24 until they ship Node 24 releases of their own.
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   IMAGE: ghcr.io/alazso/comficonf-docs
@@ -31,7 +30,7 @@ jobs:
         run: |
           echo "short_sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
           echo "build_date=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
-          # Newest version of the Modrinth project; 0.1.0 while the project does not exist.
+          # Newest version of the Modrinth project; 0.1.0 when the Modrinth API returns no version.
           VERSION=$(curl -fsSL https://api.modrinth.com/v2/project/comficonf/version | jq -r 'sort_by(.date_published) | last | .version_number // empty' || true)
           echo "bridge_version=${VERSION:-0.1.0}" >> "$GITHUB_OUTPUT"
 

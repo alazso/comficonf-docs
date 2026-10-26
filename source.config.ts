@@ -4,7 +4,7 @@ import { createCssVariablesTheme } from 'shiki';
 import { releaseLinks } from './lib/shared';
 
 // Bridge version injected into content at build time. The deploy workflow sets COMFICONF_BRIDGE_VERSION from the
-// newest version of the Modrinth project, or 0.1.0 while the project does not exist.
+// newest version of the Modrinth project, or 0.1.0 when the Modrinth API returns no version.
 const BRIDGE_VERSION = process.env.COMFICONF_BRIDGE_VERSION || '0.1.0';
 const TOKEN = 'COMFICONF_BRIDGE_VERSION';
 

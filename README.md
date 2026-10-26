@@ -33,14 +33,12 @@ Pages are MDX files in `content/docs`. The sidebar order comes from `meta.json` 
 `meta.json` also sets its title. Every page needs a `title` and a `description` in its front matter: they are the
 page heading, the search entry, the OG image and the description in search results.
 
-Write for a server owner, not a programmer, and describe behavior the way the owner sees it. Nothing about the
-bridge's protocol, the backend or the service's internals belongs here.
+Write for a server owner, not a programmer, and describe behavior the way the owner sees it.
 
 - **UI names** are bold and written exactly as the app writes them, including capitalization and the final period
-  of messages. Check every label against the web app's source before quoting it.
+  of messages.
 - **Commands** use `<CommandChip>/comficonf pair</CommandChip>`, keys use `<Kbd>Esc</Kbd>`, and config keys,
   permissions and file names use inline code.
-- **No em or en dashes** anywhere, including front matter. Use commas, colons, parentheses or periods.
 - `COMFICONF_BRIDGE_VERSION` anywhere in content (text, code, component props) is replaced at build time by the
   bridge version; see [Version stamping](#version-stamping).
 
@@ -63,17 +61,14 @@ repositories, and `Callout`, `FactsStrip` and `Badge` match the web app's compon
 ### Screenshots
 
 Screenshots are 1600 by 900 PNG files in `public/images`, registered in `lib/screenshots.ts` with their alt text
-and caption. They come from the store listing images of the ComfiConf release. Two listing images are not used
-here because they were taken on a local stack: the pairing page (it shows a local address and a setup step the
-hosted app does not have) and the console after `/comficonf pair`. Retake both against app.comficonf.com before
-adding them.
+and caption. They are the store listing images in `docs/listings/images` of the
+[ComfiConf API repository](https://github.com/alazso/comficonf-api).
 
 ## Site constants and release links
 
 `lib/shared.ts` holds the site origin, the app and sibling site addresses, the GitHub repository used for commit
 links, and `releaseLinks`: the Modrinth and Hangar pages, the public API repository and its GitHub release. A
-release link set to `null` renders its text without a link and is skipped by the link check. Set each URL once
-the page is published.
+release link set to `null` renders its text without a link and is skipped by the link check.
 
 ## Design
 
@@ -84,16 +79,7 @@ sites are `--color-code-surface`, `--color-code-text`, `--color-code-border`, `-
 (`source.config.ts`) and the `--shiki-*` properties.
 
 The stylesheet keeps Ledger's rules: no `backdrop-filter`, radii of 3, 4 and 6px, and `--shadow-lg` as the only
-shadow. Check them in a production build:
-
-```bash
-grep -oh 'backdrop-filter[^;}]*\|9999px\|box-shadow:[^;}]*' .next/static/chunks/*.css | sort | uniq -c
-```
-
-The expected hits are `box-shadow: var(--shadow-lg)`, `box-shadow: none`, Tailwind's composite `box-shadow` of the
-`.shadow-lg` utility (its `--tw-shadow` is the `--shadow-lg` value, and global.css sets the utility to
-`var(--shadow-lg)`), and the typography plugin's `kbd` shadow, which global.css replaces with `box-shadow: none`.
-Nothing else, and no `backdrop-filter` at all.
+shadow.
 
 ## Version stamping
 
@@ -102,7 +88,7 @@ Nothing else, and no `backdrop-filter` at all.
   visible on the page.
 - `COMFICONF_BRIDGE_VERSION` in content is replaced by the build argument of the same name. The deploy workflow
   takes the `version_number` of the newest version of the Modrinth project `comficonf`, and falls back to `0.1.0`
-  while the project does not exist.
+  when the Modrinth API returns no version.
 
 ## Checking links
 
@@ -114,8 +100,7 @@ node scripts/check-links.mjs http://localhost:3101 --map https://developers.comf
 
 The script reads the pages from `sitemap.xml`, follows every link on them, checks in-page anchors, maps the
 sibling site to its local server, and requests external links such as app.comficonf.com. Unset release links
-render no link, so they are not checked. Links to this repository on GitHub (the commit in the footer, the
-**Open** menu) answer only once the repository exists.
+render no link, so they are not checked.
 
 ## Deployment
 
@@ -126,16 +111,7 @@ The image is a Next.js standalone server on `node:24.22.1-alpine`, listening on 
 Run the image behind a reverse proxy and publish its port 3000 on localhost only. Updating means pulling
 `ghcr.io/alazso/comficonf-docs:latest` again and recreating the container.
 
-### Notes
-
-- **GHCR packages are private by default.** The server cannot pull the image until the package is made public
-  (on GitHub: the package, **Package settings**, **Change visibility**) or the host runs `docker login ghcr.io`
-  with a token that has the `read:packages` scope.
-- **Scheduled workflows.** GitHub disables scheduled workflows in a public repository after 60 days without
-  repository activity. The deploy workflow has no schedule, so it is not affected. If a schedule is added later and
-  the workflow shows as disabled under **Actions**, choose **Enable workflow**. If a push does not start a deploy,
-  run the workflow with `workflow_dispatch`.
-- **Check a deploy** by the footer: it names the commit the running image was built from.
+Check a deploy by the footer: it names the commit the running image was built from.
 
 ## Fonts
 

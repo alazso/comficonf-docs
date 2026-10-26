@@ -20,11 +20,11 @@ export const gitConfig = {
 };
 
 /**
- * Release locations. A `null` entry is not published yet: it renders as plain text and is skipped by the link check
- * (`scripts/check-links.mjs`); set the URL once the page is published.
+ * Release locations. A `null` entry renders as plain text and is skipped by the link check
+ * (`scripts/check-links.mjs`).
  */
 export const releaseLinks: Record<ReleaseLinkKey, string | null> = {
-  /** Modrinth project page, slug `comficonf`: https://modrinth.com/plugin/comficonf */
+  /** Modrinth project page, slug `comficonf`. */
   modrinth: null,
   /** Hangar project page. */
   hangar: null,
