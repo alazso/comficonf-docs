@@ -21,8 +21,10 @@ description: The server software, Java version and network access the ComfiConf 
 
 ## Network
 
-The bridge makes one outbound, encrypted connection to `app.comficonf.com` over HTTPS (port 443). Nothing
-connects to your server, so no port has to be opened. If your host blocks outgoing connections, allow this one.
+The bridge makes an outbound, encrypted connection to `app.comficonf.com` over HTTPS (port 443), and sends usage
+statistics to FastStats over HTTPS unless you turn them off (see
+[What leaves your server](/bridge/what-leaves-your-server#usage-statistics)). Nothing connects to your server, so
+no port has to be opened. If your host blocks outgoing connections, allow the one to `app.comficonf.com`.
 
 ## An account and a plugin to edit
 

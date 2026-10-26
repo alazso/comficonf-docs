@@ -4,7 +4,7 @@ description: Exactly what the bridge sends to ComfiConf, when, and what it never
 ---
 
 ComfiConf works through the bridge's connection to the ComfiConf service, so some data has to leave your server.
-This page lists all of it.
+The bridge also sends usage statistics to FastStats, which you can turn off. This page lists all of it.
 
 ## When the bridge connects
 
@@ -29,13 +29,31 @@ This page lists all of it.
 - The result, and the changed settings with shortened old and new values. ComfiConf keeps them as your server's
   change history under **Recent activity**. Sensitive values never appear there either.
 
+## Usage statistics
+
+The bridge also sends pseudonymous usage statistics and error reports to [FastStats](https://faststats.dev), so
+ComfiConf can see how many servers run it and fix errors nobody reports. Nothing is sent during the first start of
+a server, which creates the settings file, so you can turn it off before anything is sent.
+
+- **Shortly after start, every 30 minutes and when the server stops:** a random server id created on your server,
+  the bridge version, whether the bridge is connected and paired, the names of the plugins that registered settings
+  with ComfiConf and the number of their settings pages, and the standard FastStats fields: Minecraft and server
+  software version, online mode, player count, Java version and vendor, operating system, architecture and
+  processor core count.
+- **When the bridge's own code fails:** the exception type and stack trace. Exception messages are removed before
+  sending, because they can contain configuration values. Errors of other plugins are not reported.
+- **Turn it off:** set `enabled=false` in `plugins/faststats/config.properties` (shared by every plugin that uses
+  FastStats), or `submitErrors=false` for error reports only, then restart the server.
+
+The data reaches FastStats over HTTPS from your server's IP address.
+
 ## Never sent
 
 <Callout tone="success" title="Not sent">
   Player data, chat, files, console output, logs, or anything a plugin does not expose.
 </Callout>
 
-- The bridge sends no analytics or metrics.
+- Usage statistics never include configuration values, sensitive values, the server name, player names or chat.
 - It logs no configuration values, keys or pairing codes on your server, even with `debug: true`.
 - It cannot read files or run commands, so it has nothing else to send.
 

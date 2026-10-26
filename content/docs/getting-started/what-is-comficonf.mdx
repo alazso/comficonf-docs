@@ -41,7 +41,7 @@ The plugin owns its files. ComfiConf never reports a change as active unless the
   decides how they are validated, saved and activated. Plugins without ComfiConf support are never touched.
 </Callout>
 
-- **No open port.** The bridge makes one outbound, encrypted connection to app.comficonf.com. You do not need
+- **No open port.** The bridge connects out to app.comficonf.com over an encrypted connection. You do not need
   FTP, SFTP or RCON, and you do not open any port on your server.
 - **Secrets stay on your server.** Settings that a plugin marks as sensitive, such as database passwords or API
   tokens, are never sent to ComfiConf. You can replace some of them from the website without ever seeing the
