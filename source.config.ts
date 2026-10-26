@@ -66,7 +66,7 @@ function remarkReleaseState() {
         (node.type !== 'mdxJsxFlowElement' && node.type !== 'mdxJsxTextElement') ||
         !releaseStateElements.has(node.name ?? '')
       ) {
-        node.children = node.children?.flatMap(resolve);
+        if (node.children) node.children = node.children.flatMap(resolve);
         return [node];
       }
       const to = node.attributes?.find((attribute) => attribute.name === 'to')?.value;
